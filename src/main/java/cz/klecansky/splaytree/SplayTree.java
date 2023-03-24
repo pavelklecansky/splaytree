@@ -1,5 +1,8 @@
 package cz.klecansky.splaytree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SplayTree<Key extends Comparable<Key>, Value> {
 
     private TreeNode root;   // root of the BST
@@ -29,6 +32,20 @@ public class SplayTree<Key extends Comparable<Key>, Value> {
         int cmp = key.compareTo(root.key);
         if (cmp == 0) return root.value;
         else return null;
+    }
+
+    public List<Key> keys() {
+        List<Key> keys = new ArrayList<>();
+        inOrderTraversal(root, keys);
+        return keys;
+    }
+
+    private void inOrderTraversal(TreeNode node, List<Key> keys) {
+        if (node != null) {
+            inOrderTraversal(node.left, keys);
+            keys.add(node.key);
+            inOrderTraversal(node.right, keys);
+        }
     }
 
     public void put(Key key, Value value) {

@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 
 public class TreeView extends Pane {
     private SplayTree<String, String> tree = new SplayTree<>();
-    private double radius = 20; // Tree node radius
+    private double radius = 32; // Tree node radius
     private double vGap = 60; // Gap between two levels in a tree
 
     TreeView(SplayTree<String, String> tree) {
@@ -50,6 +50,8 @@ public class TreeView extends Pane {
         Circle circle = new Circle(x, y, radius);
         circle.setFill(Color.WHITE);
         circle.setStroke(Color.BLACK);
-        getChildren().addAll(circle, new Text(x-30, y+4, root.value + ""));
+        Text text = new Text(x - 28, y + 4, root.value + "");
+        text.setStyle("-fx-font: 10 arial;");
+        getChildren().addAll(circle, text);
     }
 }
