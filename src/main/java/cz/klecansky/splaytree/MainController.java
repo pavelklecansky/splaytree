@@ -6,10 +6,14 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 
@@ -21,7 +25,7 @@ import static cz.klecansky.splaytree.Utils.generateProductId;
 
 public class MainController implements Initializable {
 
-    private final int TREE_VIEW_POSITION = 1;
+    private final int TREE_VIEW_POSITION = 0;
 
     @FXML
     public HBox hbox;
@@ -35,6 +39,10 @@ public class MainController implements Initializable {
     public Text minDisplay;
     @FXML
     public Text modeDisplay;
+    @FXML
+    public LineChart cumulativeAverageChart;
+    @FXML
+    public VBox vbox;
 
     private SplayTree<String, String> tree;
 
@@ -90,6 +98,9 @@ public class MainController implements Initializable {
         maxDisplay.setText(String.valueOf(experimentResult.max()));
         minDisplay.setText(String.valueOf(experimentResult.min()));
         modeDisplay.setText(String.valueOf(experimentResult.mode()));
+        XYChart.Series<Number, Number> cumulativeAverageGraph = dataForCumulativeChart(experimentResult.cumulativeAverage());
+        cumulativeAverageChart.getData().clear();
+        cumulativeAverageChart.getData().add(cumulativeAverageGraph);
     }
 
     private void reloadUi() {
@@ -99,10 +110,17 @@ public class MainController implements Initializable {
 
     private void ChangeEmptyGraphUi(SplayTree<String, String> tree) {
         TreeView treeView = new TreeView(tree);
-        hbox.getChildren().set(TREE_VIEW_POSITION, treeView);
+        vbox.getChildren().set(TREE_VIEW_POSITION, treeView);
         this.treeView = treeView;
         HBox.setHgrow(this.treeView, Priority.ALWAYS);
     }
 
-
+    private XYChart.Series<Number, Number> dataForCumulativeChart(List<Double> cumulativeAverage) {
+        XYChart.Series<Number, Number> dataSeries = new XYChart.Series<>();
+        dataSeries.setName("Data");
+        for (int i = 0; i < cumulativeAverage.size(); i++) {
+            dataSeries.getData().add(new XYChart.Data<>(i, cumulativeAverage.get(i)));
+        }
+        return dataSeries;
+    }
 }
