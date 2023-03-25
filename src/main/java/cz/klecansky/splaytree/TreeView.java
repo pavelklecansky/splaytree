@@ -7,12 +7,13 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
 public class TreeView extends Pane {
-    private SplayTree<String, String> tree = new SplayTree<>();
-    private double radius = 32; // Tree node radius
-    private double vGap = 60; // Gap between two levels in a tree
+    private SplayTree<String, Product> tree = new SplayTree<>();
+    private double radius = 30; // Tree node radius
+    private double vGap = 50; // Gap between two levels in a tree
 
-    TreeView(SplayTree<String, String> tree) {
+    TreeView(SplayTree<String, Product> tree) {
         this.tree = tree;
+        this.setMinSize(1000, 500);
         setStatus("Tree is empty");
     }
 
@@ -50,7 +51,7 @@ public class TreeView extends Pane {
         Circle circle = new Circle(x, y, radius);
         circle.setFill(Color.WHITE);
         circle.setStroke(Color.BLACK);
-        Text text = new Text(x - 28, y + 4, root.value + "");
+        Text text = new Text(x - 28, y + 4, root.key + "");
         text.setStyle("-fx-font: 10 arial;");
         getChildren().addAll(circle, text);
     }

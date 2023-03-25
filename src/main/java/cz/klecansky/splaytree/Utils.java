@@ -22,6 +22,18 @@ public class Utils {
 
         return builder.toString();
     }
+    public static Product generateProduct() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(RandomStringUtils.randomAlphabetic(3))
+                .append("-")
+                .append(RandomStringUtils.randomAlphabetic(3))
+                .append("-")
+                .append(RandomUtils.nextInt(1, 10))
+                .append(RandomUtils.nextInt(1, 10));
+
+        return new Product(builder.toString());
+    }
 
     public static Dialog<Pair<String, String>> newTreeValue() {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -55,7 +67,7 @@ public class Utils {
         return dialog;
     }
 
-    public static Dialog<String> removeTreeValue(SplayTree<String, String> tree) {
+    public static Dialog<String> removeTreeValue(SplayTree<String, Product> tree) {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Remove");
         dialog.setHeaderText("Remove value from tree");
@@ -85,7 +97,7 @@ public class Utils {
         return dialog;
     }
 
-    public static Dialog<String> findTreeValue(SplayTree<String, String> tree) {
+    public static Dialog<String> findTreeValue(SplayTree<String, Product> tree) {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Find");
         dialog.setHeaderText("Find value from tree");

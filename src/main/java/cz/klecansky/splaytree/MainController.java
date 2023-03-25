@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.HBox;
@@ -17,11 +16,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-import static cz.klecansky.splaytree.Utils.generateProductId;
+import static cz.klecansky.splaytree.Utils.generateProduct;
 
 public class MainController implements Initializable {
 
@@ -46,19 +45,14 @@ public class MainController implements Initializable {
     @FXML
     public StackPane stackPane;
 
-    private SplayTree<String, String> tree;
+    private SplayTree<String, Product> tree;
 
     private TreeView treeView;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         tree = new SplayTree<>();
-        ChangeEmptyGraphUi(tree);
-        for (int i = 0; i < 12; i++) {
-            String id = generateProductId();
-            tree.put(id, id);
-            reloadUi();
-        }
+        InitializeTree(tree);
     }
 
     @FXML
@@ -66,7 +60,7 @@ public class MainController implements Initializable {
         Dialog<Pair<String, String>> dialog = Utils.newTreeValue();
         Optional<Pair<String, String>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
-            tree.put(pair.getKey(), pair.getValue());
+            tree.put(pair.getKey(), new Product(pair.getValue()));
             reloadUi();
         });
     }
@@ -86,8 +80,8 @@ public class MainController implements Initializable {
         Dialog<String> dialog = Utils.findTreeValue(tree);
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(key -> {
-            String value = tree.get(key);
-            findValue.setText(value);
+            Product value = tree.get(key);
+            findValue.setText(value.id());
             reloadUi();
         });
     }
@@ -110,7 +104,7 @@ public class MainController implements Initializable {
     }
 
 
-    private void ChangeEmptyGraphUi(SplayTree<String, String> tree) {
+    private void InitializeTree(SplayTree<String, Product> tree) {
         TreeView treeView = new TreeView(tree);
         vbox.getChildren().set(TREE_VIEW_POSITION, treeView);
         this.treeView = treeView;
@@ -124,5 +118,23 @@ public class MainController implements Initializable {
             dataSeries.getData().add(new XYChart.Data<>(i, cumulativeAverage.get(i)));
         }
         return dataSeries;
+    }
+
+    public void loadTree(ActionEvent actionEvent) throws FileNotFoundException {
+
+        File treeDataFile = new File("./data/products.txt");
+        if (!treeDataFile.exists()) {
+            throw new IllegalArgumentException("File is not existing.");
+        }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(treeDataFile))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                Product product = new Product(line);
+                tree.put(product.id(), product);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        reloadUi();
     }
 }
