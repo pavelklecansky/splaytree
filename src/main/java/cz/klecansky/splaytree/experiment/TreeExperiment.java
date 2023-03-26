@@ -1,6 +1,6 @@
 package cz.klecansky.splaytree.experiment;
 
-import cz.klecansky.splaytree.SplayTree;
+import cz.klecansky.splaytree.tree.SplayTree;
 import cz.klecansky.splaytree.Utils;
 
 import java.io.File;

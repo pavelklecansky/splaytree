@@ -2,6 +2,8 @@ package cz.klecansky.splaytree;
 
 import cz.klecansky.splaytree.experiment.ExperimentResult;
 import cz.klecansky.splaytree.experiment.TreeExperiment;
+import cz.klecansky.splaytree.tree.SplayTree;
+import cz.klecansky.splaytree.view.TreeView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,8 +21,6 @@ import javafx.util.Pair;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-
-import static cz.klecansky.splaytree.Utils.generateProduct;
 
 public class MainController implements Initializable {
 
@@ -121,7 +121,6 @@ public class MainController implements Initializable {
     }
 
     public void loadTree(ActionEvent actionEvent) throws FileNotFoundException {
-
         File treeDataFile = new File("./data/products.txt");
         if (!treeDataFile.exists()) {
             throw new IllegalArgumentException("File is not existing.");

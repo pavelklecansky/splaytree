@@ -1,6 +1,7 @@
 package cz.klecansky.splaytree;
 
 
+import cz.klecansky.splaytree.tree.SplayTree;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;

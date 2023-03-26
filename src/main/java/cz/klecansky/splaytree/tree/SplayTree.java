@@ -1,32 +1,26 @@
-package cz.klecansky.splaytree;
+package cz.klecansky.splaytree.tree;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SplayTree<Key extends Comparable<Key>, Value> {
+public class SplayTree<Key extends Comparable<Key>, Value> implements Tree<Key, Value> {
 
-    private TreeNode root;   // root of the BST
+    private TreeNode<Key, Value> root;   // root of the BST
 
-    // BST helper node data type
-    public class TreeNode {
-        public Key key;            // key
-        public Value value;        // associated data
-        public TreeNode left, right;   // left and right subtrees
-
-        public TreeNode(Key key, Value value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
-
+    @Override
     public boolean contains(Key key) {
         return get(key) != null;
     }
 
-    public TreeNode getRoot() {
-        return root;
+    @Override
+    public Key getRootKey() {
+        if (root == null) {
+            return null;
+        }
+        return root.key;
     }
 
+    @Override
     public Value get(Key key) {
         root = splay(root, key);
         int cmp = key.compareTo(root.key);
@@ -34,24 +28,18 @@ public class SplayTree<Key extends Comparable<Key>, Value> {
         else return null;
     }
 
+    @Override
     public List<Key> keys() {
         List<Key> keys = new ArrayList<>();
-        inOrderTraversal(root, keys);
+        inOrderTraversalSaveAllKeys(root, keys);
         return keys;
     }
 
-    private void inOrderTraversal(TreeNode node, List<Key> keys) {
-        if (node != null) {
-            inOrderTraversal(node.left, keys);
-            keys.add(node.key);
-            inOrderTraversal(node.right, keys);
-        }
-    }
-
+    @Override
     public void put(Key key, Value value) {
         // splay key to root
         if (root == null) {
-            root = new TreeNode(key, value);
+            root = new TreeNode<>(key, value);
             return;
         }
 
@@ -61,7 +49,7 @@ public class SplayTree<Key extends Comparable<Key>, Value> {
 
         // Insert new node at root
         if (cmp < 0) {
-            TreeNode n = new TreeNode(key, value);
+            TreeNode<Key, Value> n = new TreeNode<>(key, value);
             n.left = root.left;
             n.right = root;
             root.left = null;
@@ -70,7 +58,7 @@ public class SplayTree<Key extends Comparable<Key>, Value> {
 
         // Insert new node at root
         else if (cmp > 0) {
-            TreeNode n = new TreeNode(key, value);
+            TreeNode<Key, Value> n = new TreeNode<>(key, value);
             n.right = root.right;
             n.left = root;
             root.right = null;
@@ -92,6 +80,7 @@ public class SplayTree<Key extends Comparable<Key>, Value> {
      * right subtree. Finally, A's right child is made the new root's right
      * child.
      */
+    @Override
     public void remove(Key key) {
         if (root == null) return; // empty tree
 
@@ -103,7 +92,7 @@ public class SplayTree<Key extends Comparable<Key>, Value> {
             if (root.left == null) {
                 root = root.right;
             } else {
-                TreeNode x = root.right;
+                TreeNode<Key, Value> x = root.right;
                 root = root.left;
                 splay(root, key);
                 root.right = x;
@@ -117,7 +106,7 @@ public class SplayTree<Key extends Comparable<Key>, Value> {
     // splay key in the tree rooted at Node h. If a node with that key exists,
     //   it is splayed to the root of the tree. If it does not, the last node
     //   along the search path for the key is splayed to the root.
-    private TreeNode splay(TreeNode h, Key key) {
+    private TreeNode<Key, Value> splay(TreeNode<Key, Value> h, Key key) {
         if (h == null) return null;
 
         int cmp1 = key.compareTo(h.key);
@@ -166,38 +155,80 @@ public class SplayTree<Key extends Comparable<Key>, Value> {
      ***************************************************************************/
 
     // height of tree (1-node tree has height 0)
+    @Override
     public int height() {
         return height(root);
     }
 
-    private int height(TreeNode x) {
+    private int height(TreeNode<Key, Value> x) {
         if (x == null) return -1;
         return 1 + Math.max(height(x.left), height(x.right));
     }
 
 
+    @Override
     public int size() {
         return size(root);
     }
 
-    private int size(TreeNode x) {
+
+    private int size(TreeNode<Key, Value> x) {
         if (x == null) return 0;
         else return 1 + size(x.left) + size(x.right);
     }
 
+    @Override
+    public Key getLeftKey(Key parent) {
+        TreeNode<Key, Value> node = root;
+        TreeNode<Key, Value> treeNode = inOrderTraversalSearchByKey(node, parent);
+        if (treeNode == null || treeNode.left == null) {
+            return null;
+        }
+        return treeNode.left.key;
+    }
+
+    @Override
+    public Key getRightKey(Key parent) {
+        TreeNode<Key, Value> node = root;
+        TreeNode<Key, Value> treeNode = inOrderTraversalSearchByKey(node, parent);
+        if (treeNode == null || treeNode.right == null) {
+            return null;
+        }
+        return treeNode.right.key;
+    }
+
     // right rotate
-    private TreeNode rotateRight(TreeNode h) {
-        TreeNode x = h.left;
+    private TreeNode<Key, Value> rotateRight(TreeNode<Key, Value> h) {
+        TreeNode<Key, Value> x = h.left;
         h.left = x.right;
         x.right = h;
         return x;
     }
 
     // left rotate
-    private TreeNode rotateLeft(TreeNode h) {
-        TreeNode x = h.right;
+    private TreeNode<Key, Value> rotateLeft(TreeNode<Key, Value> h) {
+        TreeNode<Key, Value> x = h.right;
         h.right = x.left;
         x.left = h;
         return x;
+    }
+
+    private TreeNode<Key, Value> inOrderTraversalSearchByKey(TreeNode<Key, Value> node, Key key) {
+        if (node == null || node.key.equals(key)) {
+            return node;
+        }
+        if (key.compareTo(node.key) < 0) {
+            return inOrderTraversalSearchByKey(node.left, key);
+        } else {
+            return inOrderTraversalSearchByKey(node.right, key);
+        }
+    }
+
+    private void inOrderTraversalSaveAllKeys(TreeNode<Key, Value> node, List<Key> keys) {
+        if (node != null) {
+            inOrderTraversalSaveAllKeys(node.left, keys);
+            keys.add(node.key);
+            inOrderTraversalSaveAllKeys(node.right, keys);
+        }
     }
 }
