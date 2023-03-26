@@ -23,6 +23,7 @@ public class Utils {
 
         return builder.toString();
     }
+
     public static Product generateProduct() {
         StringBuilder builder = new StringBuilder();
 
@@ -36,8 +37,8 @@ public class Utils {
         return new Product(builder.toString());
     }
 
-    public static Dialog<Pair<String, String>> newTreeValue() {
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
+    public static Dialog<String> newTreeValue() {
+        Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Add new value");
         dialog.setHeaderText("Add new value to tree");
 
@@ -50,17 +51,20 @@ public class Utils {
         grid.setPadding(new Insets(20, 150, 10, 10));
 
         TextField keyField = new TextField();
-        TextField valueField = new TextField();
+        Button button = new Button("Generate Key");
 
         grid.add(new Label("Key:"), 0, 0);
         grid.add(keyField, 1, 0);
-        grid.add(new Label("Value:"), 0, 1);
-        grid.add(valueField, 1, 1);
+        grid.add(button, 0, 1, 2, 1);
         dialog.getDialogPane().setContent(grid);
+
+        button.setOnMousePressed(event -> {
+            keyField.setText(Utils.generateProductId());
+        });
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == addButtonType) {
-                return new Pair<>(keyField.getText(), valueField.getText());
+                return keyField.getText();
             }
             return null;
         });

@@ -57,10 +57,10 @@ public class MainController implements Initializable {
 
     @FXML
     public void addNewValue(ActionEvent actionEvent) {
-        Dialog<Pair<String, String>> dialog = Utils.newTreeValue();
-        Optional<Pair<String, String>> result = dialog.showAndWait();
-        result.ifPresent(pair -> {
-            tree.put(pair.getKey(), new Product(pair.getValue()));
+        Dialog<String> dialog = Utils.newTreeValue();
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(key -> {
+            tree.put(key, new Product(key));
             reloadUi();
         });
     }
