@@ -9,9 +9,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
 public class TreeView extends Pane {
-    private SplayTree<String, Product> tree = new SplayTree<>();
-    private double radius = 30; // Tree node radius
-    private double vGap = 50; // Gap between two levels in a tree
+    private SplayTree<String, Product> tree;
+    private double radius = 30;
+    private double vGap = 65;
 
     public TreeView(SplayTree<String, Product> tree) {
         this.tree = tree;
@@ -23,38 +23,28 @@ public class TreeView extends Pane {
         getChildren().add(new Text(20, 20, msg));
     }
 
-//    public void displayTree() {
-//        this.getChildren().clear(); // Clear the pane
-//        if (tree.getRoot() != null) {
-//            // Display tree recursively
-//            displayTree(tree.getRoot(), getWidth() / 2, vGap, getWidth() / 4);
-//        }
-//    }
-
     public void displayTree() {
-        this.getChildren().clear(); // Clear the pane
+        this.getChildren().clear();
         if (tree.getRootKey() != null) {
-            // Display tree recursively
             displayTree(tree.getRootKey(), getWidth() / 2, vGap, getWidth() / 4);
         }
     }
 
     private void displayTree(String key, double x, double y, double hGap) {
         if (tree.getLeftKey(key) != null) {
-            // Draw a line to the left node
-            getChildren().add(new Line(x - hGap, y + vGap, x, y));
-            // Draw the left subtree recursively
+            Line line = new Line(x - hGap, y + vGap, x, y);
+            line.setStroke(Color.RED);
+            getChildren().add(line);
             displayTree(tree.getLeftKey(key), x - hGap, y + vGap, hGap / 2);
         }
 
         if (tree.getRightKey(key) != null) {
-            // Draw a line to the right node
-            getChildren().add(new Line(x + hGap, y + vGap, x, y));
-            // Draw the right subtree recursively
+            Line line = new Line(x + hGap, y + vGap, x, y);
+            line.setStroke(Color.BLUE);
+            getChildren().add(line);
             displayTree(tree.getRightKey(key), x + hGap, y + vGap, hGap / 2);
         }
 
-        // Display a node
         Circle circle = new Circle(x, y, radius);
         circle.setFill(Color.WHITE);
         circle.setStroke(Color.BLACK);
@@ -62,31 +52,4 @@ public class TreeView extends Pane {
         text.setStyle("-fx-font: 10 arial;");
         getChildren().addAll(circle, text);
     }
-
-    /**
-     * Display a subtree rooted at position (x, y)
-     */
-//    private void displayTree(SplayTree.TreeNode root, double x, double y, double hGap) {
-//        if (root.left != null) {
-//            // Draw a line to the left node
-//            getChildren().add(new Line(x - hGap, y + vGap, x, y));
-//            // Draw the left subtree recursively
-//            displayTree(root.left, x - hGap, y + vGap, hGap / 2);
-//        }
-//
-//        if (root.right != null) {
-//            // Draw a line to the right node
-//            getChildren().add(new Line(x + hGap, y + vGap, x, y));
-//            // Draw the right subtree recursively
-//            displayTree(root.right, x + hGap, y + vGap, hGap / 2);
-//        }
-//
-//        // Display a node
-//        Circle circle = new Circle(x, y, radius);
-//        circle.setFill(Color.WHITE);
-//        circle.setStroke(Color.BLACK);
-//        Text text = new Text(x - 28, y + 4, root.key + "");
-//        text.setStyle("-fx-font: 10 arial;");
-//        getChildren().addAll(circle, text);
-//    }
 }

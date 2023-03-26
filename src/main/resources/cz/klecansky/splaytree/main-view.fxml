@@ -15,7 +15,7 @@
 
 <HBox fx:id="hbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.klecansky.splaytree.MainController">
    <children>
-      <VBox prefHeight="430.0" prefWidth="250.0" style="-fx-background-color: #A0A0A0;">
+      <VBox prefHeight="430.0" prefWidth="225.0" style="-fx-background-color: #A0A0A0;">
          <children>
             <Button mnemonicParsing="false" onAction="#loadTree" prefHeight="25.0" prefWidth="200.0" text="Load tree" />
             <Button mnemonicParsing="false" onAction="#addNewValue" prefHeight="26.0" prefWidth="200.0" text="Add new value">
@@ -108,8 +108,14 @@
                     </yAxis>
                   </LineChart>
                </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
             </StackPane>
          </children>
+         <padding>
+            <Insets left="50.0" right="50.0" />
+         </padding>
       </VBox>
    </children>
 </HBox>
