@@ -87,14 +87,11 @@ public class SplayTree<Key extends Comparable<Key>, Value> implements Tree<Key, 
             if (isLeftNotInNode(node)) {
                 return node;
             }
-            int cmp2 = key.compareTo(node.left.key);
-            if (cmp2 < 0) {
-                node.left.left = splay(node.left.left, key);
-                node = rotateRight(node);
-            } else if (cmp2 > 0) {
-                node.left.right = splay(node.left.right, key);
-                if (node.left.right != null)
-                    node.left = rotateLeft(node.left);
+            int compareLeftKey = key.compareTo(node.left.key);
+            if (compareLeftKey < 0) {
+                node = rightZigZig(node, key);
+            } else if (compareLeftKey > 0) {
+                rightZigZag(node, key);
             }
             if (isLeftNotInNode(node)) {
                 return node;
@@ -106,14 +103,11 @@ public class SplayTree<Key extends Comparable<Key>, Value> implements Tree<Key, 
                 return node;
             }
 
-            int cmp2 = key.compareTo(node.right.key);
-            if (cmp2 < 0) {
-                node.right.left = splay(node.right.left, key);
-                if (node.right.left != null)
-                    node.right = rotateRight(node.right);
-            } else if (cmp2 > 0) {
-                node.right.right = splay(node.right.right, key);
-                node = rotateLeft(node);
+            int compareRightKey = key.compareTo(node.right.key);
+            if (compareRightKey < 0) {
+                leftZigZag(node, key);
+            } else if (compareRightKey > 0) {
+                node = leftZigZig(node, key);
             }
 
             if (isRightNotInNode(node)) {
@@ -124,6 +118,30 @@ public class SplayTree<Key extends Comparable<Key>, Value> implements Tree<Key, 
         } else {
             return node;
         }
+    }
+
+    private void leftZigZag(TreeNode<Key, Value> node, Key key) {
+        node.right.left = splay(node.right.left, key);
+        if (node.right.left != null)
+            node.right = rotateRight(node.right);
+    }
+
+    private TreeNode<Key, Value> leftZigZig(TreeNode<Key, Value> node, Key key) {
+        node.right.right = splay(node.right.right, key);
+        node = rotateLeft(node);
+        return node;
+    }
+
+    private TreeNode<Key, Value> rightZigZig(TreeNode<Key, Value> node, Key key) {
+        node.left.left = splay(node.left.left, key);
+        node = rotateRight(node);
+        return node;
+    }
+
+    private void rightZigZag(TreeNode<Key, Value> node, Key key) {
+        node.left.right = splay(node.left.right, key);
+        if (node.left.right != null)
+            node.left = rotateLeft(node.left);
     }
 
     private TreeNode<Key, Value> rightZig(TreeNode<Key, Value> node) {
