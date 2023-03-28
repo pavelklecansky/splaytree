@@ -23,11 +23,11 @@ public interface Tree<Key extends Comparable<Key>, Value> {
 
     Key getRightKey(Key parent);
 
-    // BST helper node data type
     class TreeNode<Key extends Comparable<Key>, Value> {
-        public Key key;            // key
-        public Value value;        // associated data
-        public TreeNode<Key, Value> left, right;   // left and right subtrees
+        public Key key;
+        public Value value;
+        public TreeNode<Key, Value> left;
+        public TreeNode<Key, Value> right;
 
         public TreeNode(Key key, Value value) {
             this.key = key;

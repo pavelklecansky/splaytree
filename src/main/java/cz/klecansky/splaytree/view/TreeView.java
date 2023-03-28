@@ -15,7 +15,7 @@ public class TreeView extends Pane {
 
     public TreeView(SplayTree<String, Product> tree) {
         this.tree = tree;
-        this.setMinSize(1000, 500);
+        this.setMinSize(1000, 450);
         setStatus("Tree is empty");
     }
 

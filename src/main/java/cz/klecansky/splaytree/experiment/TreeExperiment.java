@@ -14,7 +14,7 @@ public class TreeExperiment {
     private static final int NUMBER_OF_EXPERIMENTS = 10000;
     private static final int NUMBER_OF_GENERATED_ELEMENTS = 1023;
 
-    private File experimentsFolder;
+    private final File experimentsFolder;
 
     public TreeExperiment() {
         experimentsFolder = new File("./experiments");
