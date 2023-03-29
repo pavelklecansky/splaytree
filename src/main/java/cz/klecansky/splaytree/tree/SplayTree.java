@@ -60,9 +60,9 @@ public class SplayTree<Key extends Comparable<Key>, Value> implements Tree<Key, 
     }
 
     @Override
-    public void remove(Key key) {
-        if (root == null) return;
-        if (key == null) return;
+    public Value remove(Key key) {
+        if (root == null) return null;
+        if (key == null) return null;
 
         root = splay(root, key);
 
@@ -75,7 +75,10 @@ public class SplayTree<Key extends Comparable<Key>, Value> implements Tree<Key, 
                 root = splay(root, key);
                 root.right = node;
             }
+            return root.value;
         }
+        // Key is not in tree
+        return null;
     }
 
     private TreeNode<Key, Value> splay(TreeNode<Key, Value> node, Key key) {

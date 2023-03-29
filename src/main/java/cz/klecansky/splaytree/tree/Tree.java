@@ -13,7 +13,7 @@ public interface Tree<Key extends Comparable<Key>, Value> {
 
     void put(Key key, Value value);
 
-    void remove(Key key);
+    Value remove(Key key);
 
     int height();
 
