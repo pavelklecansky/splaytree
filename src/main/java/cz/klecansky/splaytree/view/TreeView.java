@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
 
 public class TreeView extends Pane {
     private SplayTree<String, Product> tree;
-    private double radius = 30;
+    private double radius = 20;
     private double vGap = 65;
 
     public TreeView(SplayTree<String, Product> tree) {
@@ -48,7 +48,7 @@ public class TreeView extends Pane {
         Circle circle = new Circle(x, y, radius);
         circle.setFill(Color.WHITE);
         circle.setStroke(Color.BLACK);
-        Text text = new Text(x - 28, y + 4, key + "");
+        Text text = new Text(x - 8, y + 4, key + "");
         text.setStyle("-fx-font: 10 arial;");
         getChildren().addAll(circle, text);
     }
