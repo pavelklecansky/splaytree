@@ -10,8 +10,8 @@ import javafx.scene.text.Text;
 
 public class TreeView extends Pane {
     private SplayTree<String, Product> tree;
-    private double radius = 20;
-    private double vGap = 65;
+    private double radius = 18;
+    private double vGap = 50;
 
     public TreeView(SplayTree<String, Product> tree) {
         this.tree = tree;
