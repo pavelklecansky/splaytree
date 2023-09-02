@@ -2,7 +2,6 @@ module cz.klecansky.splaytree {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.apache.commons.lang3;
-    requires org.jfxtras.styles.jmetro;
     requires atlantafx.base;
 
 
