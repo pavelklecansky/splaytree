@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -13,10 +14,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<HBox fx:id="hbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.klecansky.splaytree.MainController">
+<HBox fx:id="hbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.klecansky.splaytree.MainController">
    <children>
-      <VBox prefHeight="430.0" prefWidth="225.0" style="-fx-background-color: #A0A0A0;">
+      <VBox prefHeight="430.0" prefWidth="225.0" styleClass="bg-subtle">
          <children>
+            <Text fx:id="findValue" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-1" text="Splay Tree" textAlignment="CENTER" wrappingWidth="182.13671875" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Text>
             <Button mnemonicParsing="false" onAction="#loadTree" prefHeight="25.0" prefWidth="200.0" text="Load tree" />
             <Button mnemonicParsing="false" onAction="#addNewValue" prefHeight="26.0" prefWidth="200.0" text="Add new value">
                <VBox.margin>
@@ -32,11 +38,6 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <Text fx:id="findValue" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="182.13671875" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Text>
             <Separator prefWidth="200.0">
                <VBox.margin>
                   <Insets top="5.0" />
@@ -47,9 +48,18 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Button>
-            <Label text="Average:">
+            <Text fx:id="findValue1" strokeType="OUTSIDE" strokeWidth="0.0" text="Experiment Statistics:" underline="true" wrappingWidth="182.13671875">
                <VBox.margin>
                   <Insets top="5.0" />
+               </VBox.margin>
+               <styleClass>
+                  <String fx:value="title-4" />
+                  <String fx:value="text-bold" />
+               </styleClass>
+            </Text>
+            <Label text="Average:">
+               <VBox.margin>
+                  <Insets />
                </VBox.margin>
                <font>
                   <Font name="System Bold" size="15.0" />
