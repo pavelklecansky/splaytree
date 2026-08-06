@@ -14,12 +14,12 @@ public class Utils {
     public static String generateProductId() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append(RandomStringUtils.randomAlphabetic(3))
+        builder.append(RandomStringUtils.insecure().nextAlphabetic(3))
                 .append("-")
-                .append(RandomStringUtils.randomAlphabetic(3))
+                .append(RandomStringUtils.insecure().nextAlphabetic(3))
                 .append("-")
-                .append(RandomUtils.nextInt(1, 10))
-                .append(RandomUtils.nextInt(1, 10));
+                .append(RandomUtils.insecure().randomInt(1, 10))
+                .append(RandomUtils.insecure().randomInt(1, 10));
 
         return builder.toString();
     }
@@ -27,12 +27,12 @@ public class Utils {
     public static Product generateProduct() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append(RandomStringUtils.randomAlphabetic(3))
+        builder.append(RandomStringUtils.insecure().nextAlphabetic(3))
                 .append("-")
-                .append(RandomStringUtils.randomAlphabetic(3))
+                .append(RandomStringUtils.insecure().nextAlphabetic(3))
                 .append("-")
-                .append(RandomUtils.nextInt(1, 10))
-                .append(RandomUtils.nextInt(1, 10));
+                .append(RandomUtils.insecure().randomInt(1, 10))
+                .append(RandomUtils.insecure().randomInt(1, 10));
 
         return new Product(builder.toString());
     }
